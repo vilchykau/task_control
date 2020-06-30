@@ -47,7 +47,6 @@ void reg_fun gen_regs_to_stack()
 			add eax, GEN_REGS_MEMORY_SIZE
 			add eax, REG_SIZE
 			add eax, REG_SIZE;//
-			add eax, REG_SIZE;//
 
 
 		mov[__ESP(esp + 4)], eax

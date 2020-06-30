@@ -160,6 +160,7 @@
     <ClInclude Include="delta_time.h" />
     <ClInclude Include="platform.h" />
     <ClInclude Include="reg_control.h" />
+    <ClInclude Include="reg_defines.h" />
     <ClInclude Include="thread_control.h" />
     <ClInclude Include="thread_info.h" />
   </ItemGroup>

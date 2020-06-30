@@ -54,12 +54,8 @@ void thread_kill(thread_id_t target)
 }
 
 void __declspec(naked) thread_join() {
-	__asm {
-		pushfd
-	}
 	gen_regs_to_stack();
 	save_stack_regs(__selected_info->gen_regs);
-	save_eip(__selected_info->gen_regs + EFL_ID);
 	save_eip(&__selected_info->eip);
 
 	__thread_rotate();
