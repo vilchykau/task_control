@@ -10,7 +10,7 @@
 
 circle_list<thread_info*> __thread_info_list;
 thread_info* __selected_info = nullptr;
-uint32_t __id_counter = 0;
+thread_id_t __id_counter = 0;
 
 void __thread_rotate();
 void __thread_finish();
