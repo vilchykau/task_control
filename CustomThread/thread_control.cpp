@@ -30,14 +30,14 @@ thread_id_t thread_create(void(*fun), size_t stack_size) {
 	return t->id;
 }
 
-void thread_kill(thread_id_t target)
+bool thread_kill(thread_id_t target)
 {
+	bool deleted = false;
 	if (target == thread_id()) {
 		__thread_finish();
 	}
 	else {
 		auto now_id = thread_id();
-		bool deleted = false;
 
 		__thread_info_list.go_next();
 		while (__thread_info_list.get_now()->id != now_id) {
@@ -51,6 +51,7 @@ void thread_kill(thread_id_t target)
 			}
 		}
 	}
+	return deleted;
 }
 
 void __declspec(naked) thread_join() {

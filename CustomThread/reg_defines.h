@@ -1,7 +1,9 @@
 #pragma once
 
+//Total number of general-purpose registers
 #define GEN_REGS_COUNT 8
 
+//Indicators of the general-purpose. Ids are used in the arrays.
 #define EAX_ID 0
 #define EBX_ID 1
 #define EDX_ID 2
@@ -22,8 +24,10 @@
 #define __EDI(ARR) ARR+REG_SIZE*EDI_ID
 //#define __EFL(ARR) ARR+REG_SIZE*EFL_ID
 
-
+//define type for register
 using reg_t = unsigned int;
+
+//adefine register size
 #define REG_SIZE 4
 
 //4*8

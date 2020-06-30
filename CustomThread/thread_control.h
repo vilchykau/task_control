@@ -2,7 +2,7 @@
 
 void thread_init();
 thread_id_t thread_create(void(*fun), size_t stack_size_dw);
-void thread_kill(thread_id_t target);
+bool thread_kill(thread_id_t target);
 void thread_join();
 void thread_sleep(int ms);
 void thread_async_sleep(int ms);
