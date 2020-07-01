@@ -13,6 +13,7 @@ thread_id_t __id_counter = 0;
 void __thread_rotate();
 void __thread_finish();
 void __thread_erase_prev();
+void __thread_clone();
 
 void thread_init()
 {
@@ -116,6 +117,33 @@ size_t thread_free_stack_size()
 {
 	return  reinterpret_cast<reg_t*>(__selected_info->gen_regs[ESP_ID]) - 
 		__selected_info->stack;
+}
+
+int __declspec(naked) __fastcall thread_fork(size_t stack_size_dw){
+	gen_regs_to_stack();
+	save_stack_regs(__selected_info->gen_regs);
+	save_eip(&__selected_info->eip);
+
+	__thread_clone();
+
+	__thread_info_list.go_prev();
+	__thread_rotate();
+	
+	__asm {
+		mov eax, 0
+		ret
+	}
+}
+
+void __thread_clone() {
+	size_t new_stack_size = __selected_info->gen_regs[ECX_ID];
+	if(new_stack_size == 0)
+		new_stack_size = __selected_info->stack_size;
+
+	auto cloned = __selected_info->clone(++__id_counter, new_stack_size);
+	__thread_info_list.insert(cloned);
+	__selected_info->gen_regs[EAX_ID] = 0u;
+	__thread_info_list.next()->gen_regs[EAX_ID] = 1u;
 }
 
 thread_id_t thread_id()
