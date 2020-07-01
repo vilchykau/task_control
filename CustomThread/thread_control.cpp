@@ -1,7 +1,5 @@
 #include "thread_control.h"
 
-#include <cstdint>
-
 #include "reg_control.h"
 #include "circle_list.h"
 #include "thread_info.h"
@@ -24,8 +22,8 @@ void thread_init()
 
 thread_id_t thread_create(void(*fun), size_t stack_size) {
 	auto t = __thread_info_list.insert(new thread_info{ __id_counter++, stack_size, 
-		reinterpret_cast<std::uintptr_t>(fun),
-		reinterpret_cast<std::uintptr_t>(&__thread_finish)
+		reinterpret_cast<reg_t>(fun),
+		reinterpret_cast<reg_t>(&__thread_finish)
 		});
 	return t->id;
 }
