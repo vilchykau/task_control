@@ -3,7 +3,7 @@
 //Total number of general-purpose registers
 #define GEN_REGS_COUNT 8
 
-//Indicators of the general-purpose. Ids are used in the arrays.
+//Indificators of the general-purpose. Ids are used in the arrays.
 #define EAX_ID 0
 #define EBX_ID 1
 #define EDX_ID 2
@@ -27,7 +27,7 @@
 //define type for register
 using reg_t = unsigned int;
 
-//adefine register size
+//define register size
 #define REG_SIZE 4
 
 //4*8
