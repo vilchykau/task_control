@@ -6,8 +6,11 @@
 
 void fun1() {
     while (true) {
-        std::cout << "Fun1 " << std::endl;
+        std::cout << "Fun1  STACK: " << thread_stack_size() << std::endl;
         thread_async_sleep(1000);
+        if (thread_stack_size() < STACK_SIZE * 2) {
+            thread_reloc_stack(STACK_SIZE * 2);
+        }
     }
 }
 
