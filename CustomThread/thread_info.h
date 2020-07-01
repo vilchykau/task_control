@@ -28,5 +28,7 @@ struct thread_info
 
 	~thread_info();
 
+	thread_info* clone(thread_id_t new_id, size_t new_stack_size);
+
 	bool is_main() const;
 };

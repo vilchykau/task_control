@@ -36,6 +36,17 @@ thread_info::~thread_info()
 	delete[] stack;
 }
 
+thread_info* thread_info::clone(thread_id_t new_id, size_t new_stack_size)
+{
+	auto new_info = new thread_info(new_id, new_stack_size, eip, stack[stack_size - 1]);
+	size_t min_size = new_stack_size > stack_size ? stack_size : new_stack_size;
+	for (size_t i = 0; i < min_size; ++i) {
+		new_info->stack[new_info->stack_size - i - 1] =
+			stack[stack_size - i - 1];
+	}
+	return new_info;
+}
+
 //We don't init stack only if its main thread(have a look at thread_info(thread_id_t)).
 bool thread_info::is_main() const
 {
