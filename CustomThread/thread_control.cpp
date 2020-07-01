@@ -135,6 +135,14 @@ int __declspec(naked) __fastcall thread_fork(size_t stack_size_dw){
 	}
 }
 
+void thread_reloc_stack(size_t new_stack)
+{
+	int code = thread_fork(new_stack);
+	if (code == 0) {
+		__thread_finish();
+	}
+}
+
 void __thread_clone() {
 	size_t new_stack_size = __selected_info->gen_regs[ECX_ID];
 	if(new_stack_size == 0)
