@@ -39,11 +39,9 @@ thread_info::~thread_info()
 thread_info* thread_info::clone(thread_id_t new_id, size_t new_stack_size)
 {
 	auto new_info = new thread_info(new_id, new_stack_size, eip, stack[stack_size - 1]);
-	size_t min_size = new_stack_size > stack_size ? stack_size : new_stack_size;
-	for (size_t i = 0; i < min_size; ++i) {
-		new_info->stack[new_info->stack_size - i - 1] =
-			stack[stack_size - i - 1];
-	}
+	copy_stack(new_info);
+	copy_gen_regs(new_info);
+	copy_eip(new_info);
 	return new_info;
 }
 
@@ -51,4 +49,33 @@ thread_info* thread_info::clone(thread_id_t new_id, size_t new_stack_size)
 bool thread_info::is_main() const
 {
 	return stack_size == 0;
+}
+
+void thread_info::copy_stack(thread_info* dist)
+{
+	size_t min_size = dist->stack_size > this->stack_size ? this->stack_size : dist->stack_size;
+	for (size_t i = 0; i < min_size; ++i) {
+		dist->stack[dist->stack_size - i - 1] =
+			this->stack[this->stack_size - i - 1];
+	}
+}
+
+void thread_info::copy_gen_regs(thread_info* dist)
+{
+	memcpy(dist->gen_regs, this->gen_regs, GEN_REGS_MEMORY_SIZE);
+
+	size_t delta_esp =
+		this->stack + this->stack_size - reinterpret_cast<reg_t*>(this->gen_regs[ESP_ID]);
+	size_t delta_ebp =
+		this->stack + this->stack_size - reinterpret_cast<reg_t*>(this->gen_regs[EBP_ID]);
+
+	dist->gen_regs[ESP_ID] =
+		reinterpret_cast<reg_t>(dist->stack + dist->stack_size - delta_esp);
+	dist->gen_regs[EBP_ID] =
+		reinterpret_cast<reg_t>(dist->stack + dist->stack_size - delta_ebp);
+}
+
+void thread_info::copy_eip(thread_info* dist) 
+{
+	dist->eip = this->eip;
 }

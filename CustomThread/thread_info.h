@@ -31,4 +31,11 @@ struct thread_info
 	thread_info* clone(thread_id_t new_id, size_t new_stack_size);
 
 	bool is_main() const;
+
+private:
+	void copy_stack(thread_info* dist);
+
+	void copy_gen_regs(thread_info* dist);
+	
+	void copy_eip(thread_info* dist);
 };
