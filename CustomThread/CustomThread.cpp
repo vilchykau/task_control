@@ -60,7 +60,7 @@ int main()
             else {
                 std::cout << "kill thread_1";
                 thread_kill(thread_1);
-                thread_1 = 0;
+                thread_1 = thread_id_null;
             }
         }
         std::cout << std::endl;

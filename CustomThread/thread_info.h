@@ -6,6 +6,7 @@
 //define a new type for thread_id, threads will use the id for dealing,
 //communication with other threads
 using thread_id_t = unsigned int;
+#define thread_id_null thread_id_t(0)
 
 //in this structure, we save information about threads:
 //general purpose registers, eip, stack.....
